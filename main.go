@@ -11,6 +11,7 @@ func Init() {
 	cmd.ConfigInit()
 	models.DbInit()
 	cmd.InstallCmd("run", "", func(strings []string) {
+		models.MetaInfo.Load()
 		routers.RouterApp()
 	})
 
@@ -21,7 +22,6 @@ func Init() {
 		models.AutoMigrate(args[0])
 		log.Println("数据迁移完成...")
 	})
-	models.MetaInfo.Load()
 	log.Println("初始化完成.....")
 
 }

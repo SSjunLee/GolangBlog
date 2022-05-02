@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.meta.Title}}{{.Post.Title}}</title>
+    {{template "tpl-linker.html" .}}
+</head>
+{{template "tpl-naver.html" .}}
+<div id="main">
+    <div id="page-post">
+        <article class="post detail">
+            <div class="meta">
+                <div class="date">{{ date .Post.Created "2006-01-02 15:04:05" }}</div>
+                {{if .Post.Allow}}
+                    <div class="comment"><a href="#comments">comments</a></div>
+                {{end}}
+            </div>
+            <h1 class="title">{{.Post.Title}}</h1>
+            <div class="entry-content">
+                {{if .Show}}{{str2Html .Post.RichText}}{{else}}
+                    <h3>
+                        Sorry，主人还在思考 (●ˇ∀ˇ●) ！ <br/>
+                        [ =======> 60% ]
+                    </h3>
+                {{end}}
+            </div>
+            <p>本文链接：<a href="{{.meta.SiteUrl}}/post/{{.Post.Path}}.html">{{.meta.SiteUrl}}/post/{{.Post.Path}}.html</a>
+            </p>
+            <p>-- <acronym title="End of File">EOF</acronym> --</p>
+            <div class="post-info">
+                <p>
+                    <code class="notebook">{{$.meta.Author}}</code>发表于
+                    <i>{{ date .Post.Created "2006-01-02 15:04:05"}}</i>
+                    {{if .Post.Cate}}
+                        ,添加在分类
+                        <a
+                                href="/cate/{{.Post.Cate.Name}}"
+                                data-cate="{{.Post.Cate.Name}}"
+                        ><code class="notebook">{{.Post.Cate.Intro}}</code>
+                        </a>下
+                    {{end}}
+                    {{if gt (len .Post.Tags) 0}}
+                        {{range $k,$v:=.Post.Tags}}
+                            <a href="/tag/{{$v.Name}}" data-tag="{{$v.Name}}"
+                            ><code class="notebook">{{$v.Intro}}</code></a>
+                        {{end}}
+                    {{end}}
+                    最后修改于 <i>{{ date .Post.Updated "2006-01-02 15:04:05"}}</i>
+                </p>
+            </div>
+        </article>
+        <nav class="pagination">{{ str2Html .Naver.Prev }}{{ str2Html .Naver.Next }}</nav>
+        {{if .Post.Allow}}
+            <div id="comments">
+                <h1 class="title">Comments</h1>
+                <div id="gitalk-container" data-identifier="{{md5 .Post.Path}}"
+                     data-config="{{str2js .global.Comment}}"></div>
+            </div>
+        {{end}}
+    </div>
+</div>
+{{template "tpl-footer.html" .}}
+<body>
+</body>
+</html>

@@ -1,0 +1,10 @@
+port: 8000
+dbUrl: root:123@tcp(localhost:3306)/mydb?charset=utf8&loc=Local&parseTime=True
+jwtSecret: abcdefg
+jwtExp: 15
+tokenRefreshMinute: 5
+pageMin: 5
+pageMax: 30
+nointer: false
+image: local
+enableSqlLog: false

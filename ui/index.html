@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.meta.Title}}</title>
+    {{template "tpl-linker.html" .}}
+</head>
+<body>
+{{template "tpl-naver.html" .}}
+<div id="main">
+    <section id="page-index">
+        {{range $k,$v:= .Posts}}
+            <article class="post">
+                <div class="meta">
+                    <div>
+                        <!-- $. 在循环里面访问外部变量 -->
+                        <span class="author">{{$.meta.Author}}</span>
+                        <span>发布于</span>
+                        <span class="date">{{ date $v.Created "2006-01-02"}}</span>
+                    </div>
+                    <div class="comment">
+                        <a href="/post/{{$v.Path}}.html#comments">comments</a>
+                    </div>
+                </div>
+                <h1 class="title">
+                    <a href="/post/{{$v.Path}}.html">{{$v.Title}}</a>
+                </h1>
+                <div class="entry-content">
+                    {{str2Html $v.Summary}}
+                    <p class="more">
+                        <a href="/post/{{$v.Path}}.html">阅读全文</a>
+                    </p>
+                </div>
+            </article>
+        {{end}}
+        <nav class="pagination">
+            {{if ne .Naver.Prev ""}}
+                <a href="{{.Naver.Prev}}" class="prev">上一页</a>
+            {{end}}
+            {{if ne .Naver.Next ""}}
+                <a href="{{.Naver.Next}}" class="next">下一页</a>
+            {{end}}
+        </nav>
+    </section>
+    {{template "tpl-footer.html" .}}
+</div>
+{{template "tpl-script.html" .}}
+</body>
+</html>

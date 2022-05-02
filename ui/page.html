@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>{{.meta.Title}}·{{.Page.Title}}</title>
+    <link rel="canonical" href="{{.meta.SiteUrl}}/page/{{.Page.Path}}.html" />
+    {{template "tpl-linker.html" .}}
+</head>
+<body>
+{{template "tpl-naver.html" .}}
+<div id="main">
+    <div id="page-post">
+        <article class="post page">
+            <h1 class="title">{{.Page.Title}}</h1>
+            <div class="entry-content">
+                {{if .Show}}{{str2Html .Page.RichText}}{{else}}
+                    <h3>
+                        Sorry，主人还在思考 (●ˇ∀ˇ●) ！ <br />
+                        [ =======> 60% ]
+                    </h3>
+                {{end}}
+            </div>
+        </article>
+        {{if .Page.Allow}}
+            <div id="comments">
+                <h1 class="title">Comments</h1>
+                <div id="gitalk-container" data-identifier="{{md5 .Page.Path}}" data-config="{{str2js .meta.Comment}}"></div>
+            </div>
+        {{end}}
+    </div>
+    {{template "tpl-footer.html" .}}
+</div>
+{{template "tpl-script.html" .}}
+</body>
+</html>

@@ -2,26 +2,27 @@ package models
 
 import (
 	"gorm.io/gorm"
+	"log"
 	"time"
 )
 
 type User struct {
-	Id       int    `gorm:"primary_key;auto increment;"`
-	Name     string `gorm:"type:varchar(50);"`
-	Password string `gorm:"type:varchar(50);"`
+	Id       int    `json:"id"gorm:"primary_key;auto increment;"`
+	Name     string `json:"name"gorm:"type:varchar(50);"`
+	Password string `json:"password"gorm:"type:varchar(50);"`
 	Created  time.Time
-	Roles    []Role `gorm:"many2many:user_role;"`
-	Menus    []Menu `gorm:"many2many:user_menu"`
+	Roles    []Role `json:"roles"gorm:"many2many:user_role;"`
+	Menus    []Menu `json:"menus"gorm:"many2many:user_menu"`
 }
 type Role struct {
-	Id          int          `gorm:"primary_key;auto increment;"`
-	Name        string       `gorm:"type:varchar(20);"`
-	Permissions []Permission `gorm:"many2many:role_permission;"`
+	Id          int          `json:"id"gorm:"primary_key;auto increment;"`
+	Name        string       `json:"name"gorm:"type:varchar(20);"`
+	Permissions []Permission `json:"permissions"gorm:"many2many:role_permission;"`
 }
 type Permission struct {
-	Id   int    `gorm:"primary key;auto increment;"`
-	Name string `gorm:"type:varchar(20);"`
-	Url  string `gorm:"type:varchar(100);"`
+	Id   int    `json:"id"gorm:"primary key;auto increment;"`
+	Name string `json:"name"gorm:"type:varchar(20);"`
+	Url  string `json:"url"gorm:"type:varchar(100);"`
 }
 
 type Menu struct {
@@ -36,9 +37,19 @@ func init() {
 	}...)
 }
 
-func FetchUserWithRoleByName(username string) *User {
+func FetchUser(arg interface{}) *User {
+	s := Db.Session(&gorm.Session{SkipHooks: true})
+	var err error
 	user := &User{}
-	if Db.Session(&gorm.Session{SkipHooks: true}).Where("name = ?", username).First(user).Error != nil {
+	switch arg.(type) {
+	case string:
+		err = s.Where("name=?", arg.(string)).First(user).Error
+		break
+	case int:
+		err = s.First(user, arg.(int)).Error
+	}
+	if err != nil {
+		log.Println(err)
 		return nil
 	}
 	return user

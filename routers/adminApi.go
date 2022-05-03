@@ -13,6 +13,7 @@ func AdminApi(r *gin.Engine) {
 		if !cmd.Config.Nointer {
 			admin.Use(LoginInterceptor())
 		}
+		admin.GET("/userInfo", web.ApiUserInfo)
 		admin.GET("/test", web.Test)
 		admin.GET("/menu", web.ApiGetMenuList)
 		admin.POST("/page/drop", web.ApiPageDrop)

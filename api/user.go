@@ -3,6 +3,7 @@ package web
 import (
 	"Myblog/api/response"
 	"Myblog/cmd"
+	"Myblog/common"
 	"Myblog/common/utils"
 	"Myblog/core/token"
 	"Myblog/core/vcode"
@@ -13,6 +14,21 @@ import (
 )
 
 const vcodeSecret = "v.c.o.d.e"
+
+func ApiUserInfo(c *gin.Context) {
+	uid, exits := c.Get(common.CTXUserId)
+	if !exits {
+		response.PleaseLogin(c)
+		return
+	}
+
+	u := models.FetchUser(uid)
+	if u == nil {
+		response.PleaseLogin(c)
+		return
+	}
+	response.Ok(c, u)
+}
 
 func ApiLogin(c *gin.Context) {
 	in := struct {
@@ -32,7 +48,7 @@ func ApiLogin(c *gin.Context) {
 		return
 	}
 
-	user := models.FetchUserWithRoleByName(in.Username)
+	user := models.FetchUser(in.Username)
 	if user == nil || user.Password != in.Password {
 		response.BzError(c, "用户名密码不正确")
 		return

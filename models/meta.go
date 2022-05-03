@@ -60,7 +60,12 @@ func MetaGet(arg interface{}) *Meta {
 var MetaInfo Meta
 
 func (m *Meta) Load() {
-	*m = *MetaGet(1)
+	p := MetaGet(1)
+	if p == nil {
+		_ = MetaAdd(&Meta{})
+		return
+	}
+	*m = *p
 }
 
 func init() {

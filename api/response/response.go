@@ -64,7 +64,7 @@ func Ok(c *gin.Context, data interface{}) {
 }
 
 func RefreshToken(c *gin.Context, token string) {
-	c.JSON(refresh, &m{
+	c.JSON(200, &m{
 		Code: refresh,
 		Data: token,
 	})

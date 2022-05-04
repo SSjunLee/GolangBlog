@@ -1,5 +1,5 @@
 // @Author ljn 2022/4/26 15:32:00
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -7,12 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ApiTagAll(c *gin.Context) {
+func TagAll(c *gin.Context) {
 	r := models.GetAllTags()
 	response.Ok(c, r)
 }
 
-func ApiTagPage(c *gin.Context) {
+func TagPage(c *gin.Context) {
 	in := models.Page{}
 	err := c.BindQuery(&in)
 	if err != nil {
@@ -31,7 +31,7 @@ func ApiTagPage(c *gin.Context) {
 	response.Page(c, tags, int(cnt))
 }
 
-func ApiTagDrop(c *gin.Context) {
+func TagDrop(c *gin.Context) {
 	input := struct {
 		Id int `json:"id"`
 	}{-1}
@@ -47,7 +47,7 @@ func ApiTagDrop(c *gin.Context) {
 	response.Ok(c, "删除成功")
 }
 
-func ApiTagEdit(c *gin.Context) {
+func TagEdit(c *gin.Context) {
 	tag := models.Tag{}
 	err := c.BindJSON(&tag)
 	if err != nil {
@@ -61,7 +61,7 @@ func ApiTagEdit(c *gin.Context) {
 	response.Ok(c, "编辑成功")
 }
 
-func ApiTagAdd(c *gin.Context) {
+func TagAdd(c *gin.Context) {
 	tag := models.Tag{}
 	err := c.BindJSON(&tag)
 	if err != nil {

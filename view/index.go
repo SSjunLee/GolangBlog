@@ -39,7 +39,7 @@ func Index(c *gin.Context) {
 	if pi == 0 {
 		pi = 1
 	}
-	modes := models.PostGetPage(models.KindArticle, -1, pi, ps, "id", "title", "path", "created", "summary")
+	modes := models.PostGetPage(models.KindArticle, -1, pi, ps, "id", "title", "path", "created", "summary", "status")
 	if modes == nil {
 		modes = make([]models.Post, 0)
 	}

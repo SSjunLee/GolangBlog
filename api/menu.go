@@ -1,4 +1,4 @@
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -7,12 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetMenuList(id int) []models.Menu {
+func getMenuList(id int) []models.Menu {
 	return models.FetchMenuByUser(id)
 }
 
-func ApiGetMenuList(c *gin.Context) {
+func GetMenuList(c *gin.Context) {
 	id, _ := c.Get(common.CTXUserId)
-	menus := GetMenuList(id.(int))
+	menus := getMenuList(id.(int))
 	response.Ok(c, menus)
 }

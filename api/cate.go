@@ -1,5 +1,5 @@
 // @Author ljn 2022/4/26 15:07:00
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -8,12 +8,12 @@ import (
 	"strconv"
 )
 
-func ApiCateAll(c *gin.Context) {
+func CateAll(c *gin.Context) {
 	r := models.GetAllCate()
 	response.Ok(c, r)
 }
 
-func ApiCateGetPage(c *gin.Context) {
+func CateGetPage(c *gin.Context) {
 	in := models.BuildPageFromHttpParams(c)
 	cnt := models.CateCnt()
 	if cnt <= 0 {
@@ -28,7 +28,7 @@ func ApiCateGetPage(c *gin.Context) {
 	response.Page(c, res, int(cnt))
 }
 
-func ApiCateGet(c *gin.Context) {
+func CateGet(c *gin.Context) {
 	id, err := strconv.Atoi(c.Query("id"))
 	if err != nil {
 		panic(err)
@@ -41,7 +41,7 @@ func ApiCateGet(c *gin.Context) {
 	response.Ok(c, r)
 }
 
-func ApiCateEdit(c *gin.Context) {
+func CateEdit(c *gin.Context) {
 	cate := models.Cate{}
 	err := c.BindJSON(&cate)
 	if err != nil {
@@ -55,7 +55,7 @@ func ApiCateEdit(c *gin.Context) {
 	response.Ok(c, "编辑成功")
 }
 
-func ApiCateAdd(c *gin.Context) {
+func CateAdd(c *gin.Context) {
 	cate := models.Cate{}
 	err := c.BindJSON(&cate)
 	if err != nil {
@@ -69,7 +69,7 @@ func ApiCateAdd(c *gin.Context) {
 	response.Ok(c, "添加成功")
 }
 
-func ApiCateDrop(c *gin.Context) {
+func CateDrop(c *gin.Context) {
 	input := struct {
 		Id int `json:"id"`
 	}{-1}

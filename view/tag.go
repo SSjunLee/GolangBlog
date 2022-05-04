@@ -33,7 +33,7 @@ func TagPost(c *gin.Context) {
 	posts := models.TagPostPage(tag.Id,
 		pi,
 		models.MetaInfo.PageSize,
-		"id", "title", "summary", "path", "created", "updated")
+		"id", "title", "summary", "path", "created", "updated", "status")
 
 	if posts == nil {
 		c.Redirect(302, "/")

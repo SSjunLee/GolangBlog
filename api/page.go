@@ -1,5 +1,5 @@
 // @Author ljn 2022/4/25 10:28:00
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func ApiGetPageInPage(c *gin.Context) {
+func GetPageInPage(c *gin.Context) {
 	in := models.BuildPageFromHttpParams(c)
 	cnt := models.PostCount(models.KindPage, -1)
 	if cnt < 1 {
@@ -25,7 +25,7 @@ func ApiGetPageInPage(c *gin.Context) {
 	response.Page(c, posts, cnt)
 }
 
-func ApiPageDrop(c *gin.Context) {
+func PageDrop(c *gin.Context) {
 	in := struct {
 		Id int `json:"id"`
 	}{}
@@ -37,7 +37,7 @@ func ApiPageDrop(c *gin.Context) {
 	response.Ok(c, "删除成功")
 }
 
-func ApiPageAdd(c *gin.Context) {
+func PageAdd(c *gin.Context) {
 	p := models.Post{}
 	err := c.BindJSON(&p)
 	if err != nil {
@@ -53,7 +53,7 @@ func ApiPageAdd(c *gin.Context) {
 	response.Ok(c, "添加成功")
 }
 
-func ApiPageGet(c *gin.Context) {
+func PageGet(c *gin.Context) {
 	id, err := strconv.Atoi(c.Query("id"))
 	if err != nil {
 		response.Error(c, 404, "文章不存在")
@@ -67,7 +67,7 @@ func ApiPageGet(c *gin.Context) {
 	response.Ok(c, p)
 }
 
-func ApiPageEdit(c *gin.Context) {
+func PageEdit(c *gin.Context) {
 	p := models.Post{}
 	err := c.BindJSON(&p)
 	//log.Printf("%+v",p)

@@ -1,10 +1,10 @@
 // @Author ljn 2022/4/25 17:18:00
-package web
+package api
 
 import (
 	"Myblog/api/response"
-	"Myblog/cmd"
 	"Myblog/core"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"log"
 	"mime/multipart"
@@ -18,27 +18,49 @@ func checkFileType(f *multipart.FileHeader, fileType string) bool {
 	return false
 }
 
-func ApiImgUpload(c *gin.Context) {
+func getFile(c *gin.Context) (multipart.File, string, error) {
 	f, err := c.FormFile("file")
 	if err != nil {
-		response.BzError(c, "未发现文件")
-		return
+		return nil, "", errors.New("未发现文件")
 	}
 	if !checkFileType(f, "image") {
-		response.BzError(c, "必须选择图片")
-		return
+		return nil, "", errors.New("必须选择图片")
 	}
-	var uploader core.FileUploader
-	if cmd.Config.Image == "local" {
-		uploader = core.NewLocalUploader(f)
-	} else {
-		panic("未指定图片保存位置")
-	}
-	url, err := uploader.Upload()
+	src, err := f.Open()
 	if err != nil {
-		response.BzError(c, "上传失败")
+		return nil, "", errors.New("文件打开失败")
+	}
+	return src, f.Filename, nil
+}
+
+func upload(uploader core.FileUploader, src multipart.File, filename string, c *gin.Context) {
+	url, err := uploader.Upload(src, filename)
+	if err != nil {
 		log.Println(err)
+		response.BzError(c, "上传失败")
 		return
 	}
 	response.Ok(c, url)
+}
+
+func ImageUploadOss(c *gin.Context) {
+	src, filename, err := getFile(c)
+	if err != nil {
+		response.BzError(c, err.Error())
+		return
+	}
+	if core.OssUploader == nil {
+		response.BzError(c, "请配置oss")
+		return
+	}
+	upload(core.OssUploader, src, filename, c)
+}
+
+func ImgUploadLocal(c *gin.Context) {
+	src, filename, err := getFile(c)
+	if err != nil {
+		response.BzError(c, err.Error())
+		return
+	}
+	upload(core.LocalUploader, src, filename, c)
 }

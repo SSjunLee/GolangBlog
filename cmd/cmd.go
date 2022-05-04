@@ -19,8 +19,12 @@ type GlobalConfigType struct {
 	PageMin            int           `yaml:"pageMin"`
 	PageMax            int           `yaml:"pageMax"`
 	Nointer            bool          `yaml:"nointer"`
-	Image              string        `yaml:"image"`
 	EnableSqlLog       bool          `yaml:"enableSqlLog"`
+	Oss                struct {
+		BucketUrl string `yaml:"bucketUrl"`
+		SecretID  string `yaml:"secretId"`
+		SecretKey string `yaml:"secretKey"`
+	} `yaml:"oss"`
 }
 
 var Config GlobalConfigType

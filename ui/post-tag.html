@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <title>{{.meta.Title}}·{{.Tag.Name}}</title>
-    <link rel="canonical" href="{{.meta.SiteUrl}}/tag/{{.Tag.Name}}" />
+    <link rel="canonical" href="{{.meta.SiteUrl}}/tag/{{.Tag.Name}}"/>
     {{template "tpl-linker.html" .}}
 </head>
 <body>
@@ -11,17 +11,20 @@
     <section id="page-index">
         <h1 class="intro">标签<a href="/tag/{{.Tag.Name}}">「{{.Tag.Intro}}」</a>下的文章</h1>
         {{ range $k, $v := .TagPosts }}
-           <article class="post">
-               <div class="meta">
-                   <div><span class="author">{{$.meta.Author}}</span><span>发布于</span><span class="date">{{ date $v.Created "2006-01-02" }}</span></div>
-                   <div class="comment"><a href="/post/{{$v.Path}}.html#comments">comments</a></div>
-               </div>
-               <h1 class="title"><a href="/post/{{$v.Path}}.html">{{$v.Title}}</a></h1>
-               <div class="entry-content">
-                   {{ str2Html $v.Summary }}
-                   <p class="more"><a href="/post/{{$v.Path}}.html">阅读全文»</a></p>
-               </div>
-           </article>
+            {{if eq $v.Status 2}}
+                <article class="post">
+                    <div class="meta">
+                        <div><span class="author">{{$.meta.Author}}</span><span>发布于</span><span
+                                    class="date">{{ date $v.Created "2006-01-02" }}</span></div>
+                        <div class="comment"><a href="/post/{{$v.Path}}.html#comments">comments</a></div>
+                    </div>
+                    <h1 class="title"><a href="/post/{{$v.Path}}.html">{{$v.Title}}</a></h1>
+                    <div class="entry-content">
+                        {{ str2Html $v.Summary }}
+                        <p class="more"><a href="/post/{{$v.Path}}.html">阅读全文»</a></p>
+                    </div>
+                </article>
+            {{end}}
         {{ end }}
         <nav class="pagination">
             {{ if ne .Naver.Prev ""}}<a href="{{.Naver.Prev}}" class="prev">&laquo;上一页</a>{{end}}

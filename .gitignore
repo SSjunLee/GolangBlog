@@ -2,3 +2,4 @@ static/upload/**/**
 .idea/**
 Myblog.exe
 lastupdate.tmp
+core/file_test.go

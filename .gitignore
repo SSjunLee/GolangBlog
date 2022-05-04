@@ -3,3 +3,5 @@ static/upload/**/**
 Myblog.exe
 lastupdate.tmp
 core/file_test.go
+conf/app.yml
+client.py

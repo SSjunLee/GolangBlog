@@ -1,6 +1,7 @@
 import requests
 
-base = "http://localhost:8080"
+base = "http://49.234.93.83:8000"
+
 
 
 def TestApiGetPostInPage(cid, pid, psize):

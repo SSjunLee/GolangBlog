@@ -25,7 +25,7 @@ func AdminApi(r *gin.Engine) {
 		admin.POST("/cate/edit", web.ApiCateEdit)
 		admin.POST("/cate/add", web.ApiCateAdd)
 		admin.POST("/cate/drop", web.ApiCateDrop)
-		admin.POST("/upload/image", web.ApiImgUpload)
+		admin.POST("/upload/image/local", web.ApiImgUploadLocal)
 		admin.POST("/tag/drop", web.ApiTagDrop)
 		admin.POST("/tag/edit", web.ApiTagEdit)
 		admin.POST("/tag/add", web.ApiTagAdd)

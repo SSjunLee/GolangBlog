@@ -6,5 +6,11 @@ tokenRefreshMinute: 5
 pageMin: 5
 pageMax: 30
 nointer: false
-image: local
 enableSqlLog: false
+
+
+# 对象存储
+oss:
+  bucketUrl: https://blog-1302052936.cos.ap-nanjing.myqcloud.com
+  secretID: AKIDRmwrc9SWLxLUO5XkkX7SYP2RbWCdvylL
+  secretKey: ShhU4QXQ6aqthGbhZDdokTCl6EG5g2A4

@@ -3,7 +3,6 @@ package web
 
 import (
 	"Myblog/api/response"
-	"Myblog/cmd"
 	"Myblog/core"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -18,7 +17,7 @@ func checkFileType(f *multipart.FileHeader, fileType string) bool {
 	return false
 }
 
-func ApiImgUpload(c *gin.Context) {
+func ApiImgUploadLocal(c *gin.Context) {
 	f, err := c.FormFile("file")
 	if err != nil {
 		response.BzError(c, "未发现文件")
@@ -28,13 +27,14 @@ func ApiImgUpload(c *gin.Context) {
 		response.BzError(c, "必须选择图片")
 		return
 	}
-	var uploader core.FileUploader
-	if cmd.Config.Image == "local" {
-		uploader = core.NewLocalUploader(f)
-	} else {
-		panic("未指定图片保存位置")
+
+	src, err := f.Open()
+	if err != nil {
+		response.BzError(c, "文件打开失败")
+		return
 	}
-	url, err := uploader.Upload()
+
+	url, err := core.LocalUploader.Upload(&src, f.Filename)
 	if err != nil {
 		response.BzError(c, "上传失败")
 		log.Println(err)

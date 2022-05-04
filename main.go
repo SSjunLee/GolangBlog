@@ -2,6 +2,7 @@ package main
 
 import (
 	"Myblog/cmd"
+	"Myblog/core"
 	"Myblog/models"
 	"Myblog/routers"
 	"log"
@@ -12,6 +13,7 @@ func Init() {
 	models.DbInit()
 	cmd.InstallCmd("run", "", func(strings []string) {
 		models.MetaInfo.Load()
+		core.FileUploaderLoad() //加载文件上传方式
 		routers.RouterApp()
 	})
 

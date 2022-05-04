@@ -30,6 +30,16 @@
 ### 管理系统ui地址
 - 码云：https://gitee.com/ljn1997/my-golang-blog-ui.git
 
+### 截图
+
+##### 后台
+![管理系统](./admin.PNG)
+
+##### 展示
+
+![展示](./展示.PNG)
+
+
 
 ### TODU
 1. 图床管理，把图片放到云盘

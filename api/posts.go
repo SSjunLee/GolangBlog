@@ -1,4 +1,4 @@
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func ApiPostHomeApi(c *gin.Context) {
+func PostHomeApi(c *gin.Context) {
 	cid, err := strconv.Atoi(c.Query("cid"))
 	if err != nil {
 		cid = -1
@@ -49,7 +49,7 @@ func ApiPostHomeApi(c *gin.Context) {
 	response.Page(c, pw, cnt)
 }
 
-func ApiGetPostInPage(c *gin.Context) {
+func GetPostInPage(c *gin.Context) {
 	cid, err := strconv.Atoi(c.Query("cid"))
 	if err != nil {
 		cid = -1
@@ -80,11 +80,11 @@ func ApiGetPostInPage(c *gin.Context) {
 	//response.Ok(c, posts)
 }
 
-func ApiPostDrop(c *gin.Context) {
-	ApiPageDrop(c)
+func PostDrop(c *gin.Context) {
+	PageDrop(c)
 }
 
-func ApiPostAdd(c *gin.Context) {
+func PostAdd(c *gin.Context) {
 	p := models.Post{}
 	err := c.BindJSON(&p)
 	if err != nil {
@@ -106,7 +106,7 @@ func ApiPostAdd(c *gin.Context) {
 	response.Ok(c, "添加成功")
 }
 
-func ApiPostGet(c *gin.Context) {
+func PostGet(c *gin.Context) {
 	id, err := strconv.Atoi(c.Query("id"))
 	if err != nil {
 		response.Error(c, 404, "文章不存在")
@@ -125,6 +125,6 @@ func ApiPostGet(c *gin.Context) {
 	response.Ok(c, p)
 }
 
-func ApiPostEdit(c *gin.Context) {
-	ApiPageEdit(c)
+func PostEdit(c *gin.Context) {
+	PageEdit(c)
 }

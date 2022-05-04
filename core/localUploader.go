@@ -12,14 +12,10 @@ import (
 	"time"
 )
 
-type FileUploaderLocal struct {
+type fileUploaderLocal struct {
 }
 
-func (u *FileUploaderLocal) Upload(src *multipart.File, filename string) (string, error) {
-	/*src, err := u.FileHeader.Open()
-	if err != nil {
-		return "", errors.New("文件打开失败")
-	}*/
+func (u *fileUploaderLocal) Upload(src multipart.File, filename string) (string, error) {
 	dir := time.Now().Format("201201/02")[:6]
 	_ = os.MkdirAll("./static/upload/"+dir, 0755)
 	suffix := path.Ext(filename)
@@ -30,11 +26,15 @@ func (u *FileUploaderLocal) Upload(src *multipart.File, filename string) (string
 		log.Println(err)
 		return "", errors.New("文件创建失败")
 	}
-	_, err = io.Copy(dst, *src)
+	_, err = io.Copy(dst, src)
 	if err != nil {
 		return "", err
 	}
 	return "/" + name, nil
 }
 
-var LocalUploader FileUploaderLocal
+var LocalUploader *fileUploaderLocal
+
+func initLocal() {
+	LocalUploader = &fileUploaderLocal{}
+}

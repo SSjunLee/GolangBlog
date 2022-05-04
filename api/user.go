@@ -1,4 +1,4 @@
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -9,13 +9,12 @@ import (
 	"Myblog/core/vcode"
 	"Myblog/models"
 	"github.com/gin-gonic/gin"
-	"log"
 	"time"
 )
 
 const vcodeSecret = "v.c.o.d.e"
 
-func ApiUserInfo(c *gin.Context) {
+func UserInfo(c *gin.Context) {
 	uid, exits := c.Get(common.CTXUserId)
 	if !exits {
 		response.PleaseLogin(c)
@@ -30,7 +29,7 @@ func ApiUserInfo(c *gin.Context) {
 	response.Ok(c, u)
 }
 
-func ApiLogin(c *gin.Context) {
+func Login(c *gin.Context) {
 	in := struct {
 		Username, Password, Vcode, Vreal string
 	}{}
@@ -57,12 +56,12 @@ func ApiLogin(c *gin.Context) {
 	response.Ok(c, auth.Encode(cmd.Config.JwtSecret))
 }
 
-func ApiRegister(c *gin.Context) {
+func Register(c *gin.Context) {
 	in := struct {
 		Username, Password string
 	}{}
 	_ = c.ShouldBind(&in)
-	if UsernameExits(in.Username) {
+	if models.UsernameExits(in.Username) {
 		response.BzError(c, "用户已存在")
 		return
 	}
@@ -76,7 +75,7 @@ func ApiRegister(c *gin.Context) {
 	response.Ok(c, auth.Encode(cmd.Config.JwtSecret))
 }
 
-func ApiVCode(c *gin.Context) {
+func VCode(c *gin.Context) {
 	rd := utils.RandomDigitStr(4)
 	//log.Println(rd)
 	vreal := utils.ShaEncode(rd, vcodeSecret)
@@ -88,16 +87,4 @@ func ApiVCode(c *gin.Context) {
 		VReal: vreal,
 	}
 	response.Ok(c, out)
-}
-
-func UsernameExits(username string) bool {
-	res := models.Db.Select("name").Where("name = ?", username).Find(&models.User{})
-	if res.Error != nil {
-		log.Panic(res.Error)
-	}
-	if res.RowsAffected > 0 {
-		return true
-	} else {
-		return false
-	}
 }

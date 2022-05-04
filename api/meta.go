@@ -1,5 +1,5 @@
 // @Author ljn 2022/5/2 8:47:00
-package web
+package api
 
 import (
 	"Myblog/api/response"
@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-func ApiMetaGet(c *gin.Context) {
+func MetaGet(c *gin.Context) {
 	meta := models.MetaGet(1)
 	if meta == nil {
 		response.NotFound(c)
@@ -17,7 +17,7 @@ func ApiMetaGet(c *gin.Context) {
 	response.Ok(c, meta)
 }
 
-func ApiMetaEdit(c *gin.Context) {
+func MetaEdit(c *gin.Context) {
 	meta := models.Meta{}
 	err := c.BindJSON(&meta)
 	log.Printf("%+v", meta)

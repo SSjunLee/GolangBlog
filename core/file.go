@@ -4,9 +4,10 @@ package core
 import "mime/multipart"
 
 type FileUploader interface {
-	Upload(src *multipart.File, filename string) (string, error)
+	Upload(src multipart.File, filename string) (string, error)
 }
 
-func FileUploaderLoad() {
-
+func InitFileUploader() {
+	initOss()
+	initLocal()
 }

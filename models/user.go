@@ -62,3 +62,15 @@ func FetchMenuByUser(id int) []Menu {
 	Db.Find(&menus, ids)
 	return menus
 }
+
+func UsernameExits(username string) bool {
+	res := Db.Select("name").Where("name = ?", username).Find(&User{})
+	if res.Error != nil {
+		log.Panic(res.Error)
+	}
+	if res.RowsAffected > 0 {
+		return true
+	} else {
+		return false
+	}
+}

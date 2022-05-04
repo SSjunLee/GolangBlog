@@ -11,9 +11,9 @@ import (
 func Init() {
 	cmd.ConfigInit()
 	models.DbInit()
+	core.InitFileUploader()
 	cmd.InstallCmd("run", "", func(strings []string) {
 		models.MetaInfo.Load()
-		core.FileUploaderLoad() //加载文件上传方式
 		routers.RouterApp()
 	})
 

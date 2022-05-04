@@ -21,9 +21,9 @@ type GlobalConfigType struct {
 	Nointer            bool          `yaml:"nointer"`
 	EnableSqlLog       bool          `yaml:"enableSqlLog"`
 	Oss                struct {
-		BucketUrl string `yaml:"bucket_url"`
-		SecretID  string `yaml:"secret_id"`
-		SecretKey string `yaml:"secret_key"`
+		BucketUrl string `yaml:"bucketUrl"`
+		SecretID  string `yaml:"secretId"`
+		SecretKey string `yaml:"secretKey"`
 	} `yaml:"oss"`
 }
 
